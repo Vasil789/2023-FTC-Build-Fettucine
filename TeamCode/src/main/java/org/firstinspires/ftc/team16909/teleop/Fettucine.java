@@ -10,8 +10,9 @@ public class Fettucine extends OpMode
 {
     //Initialization
     FettucineHardware hardware;
-    final double FAST_SPEED = .8;
-    final double SLOW_SPEED = .35;
+    final double FAST_SPEED = 1;
+    final double MID_SPEED = .5;
+    final double SLOW_SPEED = .2;
     double slowConstant = FAST_SPEED;
     ElapsedTime driveButtonTime = null;
 
@@ -75,32 +76,53 @@ public class Fettucine extends OpMode
             rightRearPower /= max;
         }
 
-        if (gamepad1.dpad_up || gamepad1.dpad_right)
+        if (gamepad1.dpad_up)
         {
-            leftFrontPower = -1;
-            rightRearPower = -1;
+            leftFrontPower = 1;
+            rightRearPower = 1;
             rightFrontPower = 1;
             leftRearPower = 1;
         }
-        else if (gamepad1.dpad_down || gamepad1.dpad_left)
+        else if(gamepad1.dpad_right)
         {
             leftFrontPower = 1;
             rightRearPower = 1;
             rightFrontPower = -1;
             leftRearPower = -1;
         }
+        else if(gamepad1.dpad_left)
+        {
+            leftFrontPower = -1;
+            rightRearPower = -1;
+            rightFrontPower = 1;
+            leftRearPower = 1;
+        }
+        else if (gamepad1.dpad_down )
+        {
+            leftFrontPower = -1;
+            rightRearPower = -1;
+            rightFrontPower = -1;
+            leftRearPower = -1;
+        }
 
-        if (gamepad1.square && slowConstant == FAST_SPEED && driveButtonTime.time() >= 500)
+
+        if (gamepad1.circle && (slowConstant == FAST_SPEED || slowConstant == MID_SPEED) && buttonTime.time() >= 500)
+
         {
             slowConstant = SLOW_SPEED;
             driveButtonTime.reset();
         }
-        else if (gamepad1.square && slowConstant == SLOW_SPEED && driveButtonTime.time() >= 500)
+
+        else if (gamepad1.square && (slowConstant == FAST_SPEED || slowConstant == SLOW_SPEED) && buttonTime.time() >= 500 )
+        {
+            slowConstant = MID_SPEED;
+            buttonTime.reset();
+        }
+        else if (gamepad1.cross && (slowConstant == SLOW_SPEED || slowConstant == MID_SPEED) && buttonTime.time() >= 500)
         {
             slowConstant = FAST_SPEED;
             driveButtonTime.reset();
         }
-
 
 
         hardware.frontLeftMotor.setPower(leftFrontPower * slowConstant);

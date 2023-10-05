@@ -14,15 +14,14 @@ public class Fettucine extends OpMode
     final double MID_SPEED = .5;
     final double SLOW_SPEED = .2;
     double slowConstant = FAST_SPEED;
-    ElapsedTime driveButtonTime = null;
-
+    ElapsedTime buttonTime = null;
 
 
     public void init()
     {
         hardware = new FettucineHardware();
         hardware.init(hardwareMap);
-        driveButtonTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        buttonTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
         telemetry.addData("Status","Initialized");
         telemetry.update();
@@ -37,13 +36,6 @@ public class Fettucine extends OpMode
     public void loop()
     {
         drive();
-    }
-
-
-    public void switchSpeed()
-    {
-
-
     }
 
     public void drive()
@@ -105,14 +97,11 @@ public class Fettucine extends OpMode
             leftRearPower = -1;
         }
 
-
         if (gamepad1.circle && (slowConstant == FAST_SPEED || slowConstant == MID_SPEED) && buttonTime.time() >= 500)
-
         {
             slowConstant = SLOW_SPEED;
-            driveButtonTime.reset();
+            buttonTime.reset();
         }
-
         else if (gamepad1.square && (slowConstant == FAST_SPEED || slowConstant == SLOW_SPEED) && buttonTime.time() >= 500 )
         {
             slowConstant = MID_SPEED;
@@ -121,7 +110,7 @@ public class Fettucine extends OpMode
         else if (gamepad1.cross && (slowConstant == SLOW_SPEED || slowConstant == MID_SPEED) && buttonTime.time() >= 500)
         {
             slowConstant = FAST_SPEED;
-            driveButtonTime.reset();
+            buttonTime.reset();
         }
 
 
@@ -129,33 +118,17 @@ public class Fettucine extends OpMode
         hardware.backLeftMotor.setPower(leftRearPower * slowConstant);
         hardware.frontRightMotor.setPower(rightFrontPower * slowConstant);
         hardware.backRightMotor.setPower(rightRearPower * slowConstant);
+    }
 
-
-
-
-        if (gamepad1.right_trigger >= 0.5)
+    public void intake()
+    {
+        if(gamepad2.right_trigger>0)
         {
-            hardware.intakeMotor.setPower(1.0);
+            hardware.intakeMotor.setPower(1);
         }
-
-        else if (gamepad1.right_trigger < 0.5)
+        else
         {
-            hardware.intakeMotor.setPower(0.0);
+            hardware.intakeMotor.setPower(0);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

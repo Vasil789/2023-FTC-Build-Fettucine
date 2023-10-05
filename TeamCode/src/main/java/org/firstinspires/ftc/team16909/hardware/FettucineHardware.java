@@ -36,15 +36,7 @@ public class FettucineHardware
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        intakeMotor = hardwareMap.get(DcMotorEx.class, FettucineIds.INTAKE_MOTOR);
-        intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        intakeMotor.setPower(0.0);
-        intakeMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        intakeMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-
-        
+        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD); 
 
 
         for (DcMotorEx motor : driveMotors)
@@ -55,5 +47,16 @@ public class FettucineHardware
         }
 
 
+    }
+
+    public void initializeIntakeMotor(HardwareMap hardwareMap()
+    {
+        
+        intakeMotor = hardwareMap.get(DcMotorEx.class, FettucineIds.INTAKE_MOTOR);
+        intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        
+        intakeMotor.setPower(0.0);
+        intakeMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 }

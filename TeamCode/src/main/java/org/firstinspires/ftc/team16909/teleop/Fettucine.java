@@ -41,8 +41,8 @@ public class Fettucine extends OpMode
         /*
         TODO
         intake();
+         */
         launcher();
-        */
         clawArm();
         claw();
 
@@ -130,16 +130,16 @@ public class Fettucine extends OpMode
         hardware.backRightMotor.setPower(rightRearPower * slowConstant);
     }
 
-    /*
+
     public void intake()
     {
         if(gamepad2.right_trigger>0)
         {
-            hardware.intakeMotor.setPower(1);
+            hardware.intakeMotor.setPower(1.0);
         }
         else
         {
-            hardware.intakeMotor.setPower(0);
+            hardware.intakeMotor.setPower(0.0);
         }
     }
 
@@ -147,14 +147,14 @@ public class Fettucine extends OpMode
     {
         if(gamepad2.left_trigger>0)
         {
-            hardware.launcherMotor.setPower(1);
+            hardware.launcherMotor.setPower(1.0);
         }
         else
         {
-            hardware.launcherMotor.setPower(0);
+            hardware.launcherMotor.setPower(0.0);
         }
     }
-    */
+
 
 
 
@@ -163,12 +163,12 @@ public class Fettucine extends OpMode
 
         if(gamepad2.cross && clawPosition.equals("closed"))
         {
-            hardware.clawServo.setPosition(0);
+            hardware.clawServo.setPosition(0.0);
             clawPosition = "open";
         }
         else if(gamepad2.cross && clawPosition.equals("open"))
         {
-            hardware.clawServo.setPosition(90);
+            hardware.clawServo.setPosition(0.33);
             clawPosition = "closed";
         }
     }

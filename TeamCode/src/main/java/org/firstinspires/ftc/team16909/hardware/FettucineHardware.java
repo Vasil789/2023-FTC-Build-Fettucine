@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.team16909.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -24,10 +23,8 @@ public class FettucineHardware
     {
         Assert.assertNotNull(hardwareMap);
         initializeDriveMotors(hardwareMap);
-        /* TODO
         initializeIntakeMotor(hardwareMap);
         initializeLauncherMotor(hardwareMap);
-        */
         initializeClaw(hardwareMap);
     }
 
@@ -56,7 +53,6 @@ public class FettucineHardware
 
 
     }
-    /*
     public void initializeIntakeMotor(HardwareMap hardwareMap)
     {
         
@@ -77,7 +73,6 @@ public class FettucineHardware
         launcherMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-     */
 
     public void initializeClaw(HardwareMap hardwareMap)
     {

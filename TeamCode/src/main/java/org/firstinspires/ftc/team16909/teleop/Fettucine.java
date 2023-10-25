@@ -38,10 +38,7 @@ public class Fettucine extends OpMode
     public void loop()
     {
         drive();
-        /*
-        TODO
         intake();
-         */
         launcher();
         clawArm();
         claw();
@@ -147,7 +144,7 @@ public class Fettucine extends OpMode
     {
         if(gamepad2.left_trigger>0)
         {
-            hardware.launcherMotor.setPower(1.0);
+            hardware.launcherMotor.setPower(-1.0);
         }
         else
         {
@@ -161,24 +158,24 @@ public class Fettucine extends OpMode
     public void claw()
     {
 
-        if(gamepad2.cross && clawPosition.equals("closed"))
+        if(gamepad2.triangle && clawPosition.equals("closed"))
         {
             hardware.clawServo.setPosition(0.0);
             clawPosition = "open";
         }
-        else if(gamepad2.cross && clawPosition.equals("open"))
+        else if(gamepad2.triangle && clawPosition.equals("open"))
         {
             hardware.clawServo.setPosition(0.33);
             clawPosition = "closed";
         }
     }
 
-    public void clawArm(){
+    public void clawArm()
+    {
         // Mecanum drivecode
         // Driver
         double y = -gamepad2.left_stick_y; // Remember, this is reversed!
 
-        hardware.backRightMotor.setPower(y);
-
+        hardware.clawMotor.setPower(y/2.5);
     }
 }

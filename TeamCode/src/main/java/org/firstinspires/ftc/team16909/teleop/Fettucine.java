@@ -132,7 +132,7 @@ public class Fettucine extends OpMode
     {
         if(gamepad2.right_trigger>0)
         {
-            hardware.intakeMotor.setPower(1.0);
+            hardware.intakeMotor.setPower(0.5);
         }
         else
         {

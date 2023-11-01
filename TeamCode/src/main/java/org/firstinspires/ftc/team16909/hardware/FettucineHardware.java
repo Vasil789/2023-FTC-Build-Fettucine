@@ -74,7 +74,7 @@ public class FettucineHardware
         launcherMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         launcherMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        launcherServo = hardwareMap.get(Servo.class, FettucineIds.CLAW_SERVO);
+        launcherServo = hardwareMap.get(Servo.class, FettucineIds.LAUNCHER_SERVO);
         launcherServo.setPosition(0.0);
     }
 

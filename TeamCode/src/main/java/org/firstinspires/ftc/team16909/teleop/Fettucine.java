@@ -3,6 +3,7 @@ package org.firstinspires.ftc.team16909.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.team16909.hardware.FettucineHardware;
 @TeleOp(name = "Fettucine")
@@ -130,14 +131,9 @@ public class Fettucine extends OpMode
 
     public void intake()
     {
-        if(gamepad2.right_trigger>0)
-        {
-            hardware.intakeMotor.setPower(0.5);
-        }
-        else
-        {
-            hardware.intakeMotor.setPower(0.0);
-        }
+        double intakeValue = -gamepad2.left_stick_y; // Remember, this is reversed!
+
+        hardware.clawMotor.setPower(intakeValue/0.5);
     }
 
     public void launcher()
@@ -146,11 +142,19 @@ public class Fettucine extends OpMode
         {
             hardware.launcherMotor.setPower(-1.0);
         }
-        else
+        else if(gamepad2.left_trigger == 0)
         {
             hardware.launcherMotor.setPower(0.0);
         }
+
+        if(gamepad2.dpad_up)
+        {
+            hardware.launcherServo.setPosition(1.0);
+            hardware.launcherServo.setPosition(0.0);
+
+        }
     }
+
 
 
 
@@ -158,14 +162,15 @@ public class Fettucine extends OpMode
     public void claw()
     {
 
-        if(gamepad2.triangle && clawPosition.equals("closed"))
+        if(gamepad2.right_bumper)
         {
+            hardware.clawServo.setDirection(Servo.Direction.FORWARD);
             hardware.clawServo.setPosition(0.0);
             clawPosition = "open";
         }
-        else if(gamepad2.triangle && clawPosition.equals("open"))
+        else if(gamepad2.left_bumper)
         {
-            hardware.clawServo.setPosition(0.33);
+            hardware.clawServo.setPosition(0.9);
             clawPosition = "closed";
         }
     }

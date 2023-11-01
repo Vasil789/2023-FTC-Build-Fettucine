@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.team16909.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -17,6 +18,7 @@ public class FettucineHardware
     public DcMotorEx launcherMotor;
     public DcMotorEx clawMotor;
     public Servo clawServo;
+    public Servo launcherServo;
 
 
     public void init(HardwareMap hardwareMap)
@@ -24,7 +26,7 @@ public class FettucineHardware
         Assert.assertNotNull(hardwareMap);
         initializeDriveMotors(hardwareMap);
         initializeIntakeMotor(hardwareMap);
-        initializeLauncherMotor(hardwareMap);
+        initializeLauncher(hardwareMap);
         initializeClaw(hardwareMap);
     }
 
@@ -64,13 +66,16 @@ public class FettucineHardware
         intakeMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    public void initializeLauncherMotor(HardwareMap hardwareMap)
+    public void initializeLauncher(HardwareMap hardwareMap)
     {
         launcherMotor = hardwareMap.get(DcMotorEx.class, FettucineIds.LAUNCHER_MOTOR);
         launcherMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         launcherMotor.setPower(0.0);
         launcherMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         launcherMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
+        launcherServo = hardwareMap.get(Servo.class, FettucineIds.CLAW_SERVO);
+        launcherServo.setPosition(0.0);
     }
 
 

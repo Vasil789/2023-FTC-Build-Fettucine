@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.team16909.hardware.FettucineHardware;
+
+import java.util.concurrent.TimeUnit;
+
 @TeleOp(name = "Fettucine")
 public class Fettucine extends OpMode
 {
@@ -16,6 +19,7 @@ public class Fettucine extends OpMode
     final double SLOW_SPEED = .2;
     double slowConstant = FAST_SPEED;
     ElapsedTime buttonTime = null;
+    ElapsedTime launcherServoTime = null;
     String clawPosition = "closed";
 
 
@@ -25,6 +29,8 @@ public class Fettucine extends OpMode
         hardware = new FettucineHardware();
         hardware.init(hardwareMap);
         buttonTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        launcherServoTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
 
         telemetry.addData("Status","Initialized");
         telemetry.update();
@@ -41,7 +47,6 @@ public class Fettucine extends OpMode
         drive();
         intake();
         launcher();
-        clawArm();
         claw();
 
     }
@@ -131,13 +136,14 @@ public class Fettucine extends OpMode
 
     public void intake()
     {
-        double intakeValue = -gamepad2.left_stick_y; // Remember, this is reversed!
+        double intakeValue = -gamepad2.right_stick_y; // Remember, this is reversed!
 
-        hardware.clawMotor.setPower(intakeValue/0.5);
+        hardware.intakeMotor.setPower(intakeValue);
     }
 
     public void launcher()
     {
+        // Launcher Motor Code
         if(gamepad2.left_trigger>0)
         {
             hardware.launcherMotor.setPower(-1.0);
@@ -147,12 +153,14 @@ public class Fettucine extends OpMode
             hardware.launcherMotor.setPower(0.0);
         }
 
+        // Code for Servo that pushes the rings towards the motor
         if(gamepad2.dpad_up)
-        {
-            hardware.launcherServo.setPosition(1.0);
-            hardware.launcherServo.setPosition(0.0);
-
+        {   launcherServoTime.reset();
+            hardware.launcherServo.setPosition(0.8);
         }
+        if(launcherServoTime.time()>2000)
+            hardware.launcherServo.setPosition(0.4);
+
     }
 
 
@@ -162,10 +170,11 @@ public class Fettucine extends OpMode
     public void claw()
     {
 
+        // Code for Claw Servo
         if(gamepad2.right_bumper)
         {
             hardware.clawServo.setDirection(Servo.Direction.FORWARD);
-            hardware.clawServo.setPosition(0.0);
+            hardware.clawServo.setPosition(0.3);
             clawPosition = "open";
         }
         else if(gamepad2.left_bumper)
@@ -173,14 +182,12 @@ public class Fettucine extends OpMode
             hardware.clawServo.setPosition(0.9);
             clawPosition = "closed";
         }
-    }
 
-    public void clawArm()
-    {
-        // Mecanum drivecode
-        // Driver
+        // Code for Claw Arm motor
         double y = -gamepad2.left_stick_y; // Remember, this is reversed!
 
-        hardware.clawMotor.setPower(y/2.5);
+        hardware.clawMotor.setPower(y/2);
+
     }
+
 }

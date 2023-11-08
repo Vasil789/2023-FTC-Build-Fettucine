@@ -82,7 +82,7 @@ public class FettucineHardware
     public void initializeClaw(HardwareMap hardwareMap)
     {
         clawServo = hardwareMap.get(Servo.class, FettucineIds.CLAW_SERVO);
-        clawServo.setPosition(0.0);
+        clawServo.setPosition(0.3);
 
         clawMotor = hardwareMap.get(DcMotorEx.class, FettucineIds.CLAW_MOTOR);
         clawMotor.setDirection(DcMotorSimple.Direction.FORWARD);

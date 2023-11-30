@@ -44,9 +44,9 @@ public class Auton extends LinearOpMode {
     double tagsize = 0.166;
 
     // Tag IDs
-    int ID1 = 16;
-    int ID2 = 9;
-    int ID3 = 11;
+    int ID1 = 0;
+    int ID2 = 1;
+    int ID3 = 2;
 
     AprilTagDetection tagOfInterest = null;
 

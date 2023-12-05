@@ -55,7 +55,7 @@ public class Auton extends LinearOpMode {
 
     AprilTagDetection tagOfInterest = null;
 
-    Pose2d startPose = new Pose2d(35,60,-90);
+    Pose2d startPose = new Pose2d(-60,12,Math.toRadians(90));
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -141,8 +141,9 @@ public class Auton extends LinearOpMode {
         waitForStart();
 
 
-        if (tagOfInterest.id == 0)
+        if (tagOfInterest != null)
         {
+            buildTrajectories();
             drive.followTrajectorySequence(t1);
             utilities.shootDisk();
             drive.followTrajectorySequence(t2);
@@ -161,9 +162,9 @@ public class Auton extends LinearOpMode {
                 .build();
 
         t2 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                .turn(-15)
+                .turn(Math.toRadians(-15))
                 .forward(48)
-                .turn(-90)
+                .turn(Math.toRadians(-90))
                 .forward(24)
                 .build();
 

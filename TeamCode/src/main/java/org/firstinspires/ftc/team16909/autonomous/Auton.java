@@ -30,6 +30,7 @@ public class Auton extends LinearOpMode {
     Utilities utilities;
     private SampleMecanumDrive drive;
     private TrajectorySequence t1, t2, t3;
+    private FettucineHardware hardware;
 
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -60,6 +61,18 @@ public class Auton extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        FettucineHardware hardware = new FettucineHardware();
+        
+        hardware.init(hardwareMap)
+
+        hardware.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        hardware.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        hardware.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        hardware.backRightMoto.setDirection(DcMotorSimple.Direction.FORWARD);
+        hardware.intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        hardware.launcherMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        hardware.clawMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
@@ -141,7 +154,7 @@ public class Auton extends LinearOpMode {
         waitForStart();
 
 
-        if (tagOfInterest != null)
+        if (tagOfInterest.id == ID1)
         {
             buildTrajectories();
             drive.followTrajectorySequence(t1);
@@ -154,14 +167,14 @@ public class Auton extends LinearOpMode {
     }
 
     public void buildTrajectories() {
-        t1 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+        t1 = drive.trajectorySequenceBuilder(startPose)
                 .forward(120)
                 .turn(Math.toRadians(45))
                 .forward(72)
                 .turn(Math.toRadians(-30))
                 .build();
 
-        t2 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+        t2 = drive.trajectorySequenceBuilder(t1.end())
                 .turn(Math.toRadians(-15))
                 .forward(48)
                 .turn(Math.toRadians(-90))

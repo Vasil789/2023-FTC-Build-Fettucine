@@ -20,15 +20,17 @@ import org.firstinspires.ftc.team16909.hardware.FettucineHardware;
 import org.firstinspires.ftc.team16909.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.team16909.autonomous.Utilities;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+
 import java.util.ArrayList;
 
 
 @Autonomous(name = "Fettucine Autonomous")
-public class Auton extends LinearOpMode {
+public class Red extends LinearOpMode {
 
-
-    Utilities utilities;
     private SampleMecanumDrive drive;
+    private Utilities util;
     private TrajectorySequence t1, t2, t3;
     private FettucineHardware hardware;
 
@@ -62,17 +64,21 @@ public class Auton extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         FettucineHardware hardware = new FettucineHardware();
-        
-        hardware.init(hardwareMap)
+        util = new Utilities(hardware);
+
+        drive = new SampleMecanumDrive(hardwareMap);
+        drive.setPoseEstimate(new Pose2d(-60,12,Math.toRadians(90)));
+
+        hardware.init(hardwareMap);
 
         hardware.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         hardware.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         hardware.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        hardware.backRightMoto.setDirection(DcMotorSimple.Direction.FORWARD);
+        hardware.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         hardware.intakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         hardware.launcherMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         hardware.clawMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        
+
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
@@ -153,29 +159,43 @@ public class Auton extends LinearOpMode {
 
         waitForStart();
 
-
         if (tagOfInterest.id == ID1)
         {
             buildTrajectories();
             drive.followTrajectorySequence(t1);
-            utilities.shootDisk();
+            util.shootDisk();
             drive.followTrajectorySequence(t2);
 
 
         }
+        else if (tagOfInterest.id == ID2)
+        {
+            buildTrajectories();
+            drive.followTrajectorySequence(t1);
+            util.shootDisk();
+            drive.followTrajectorySequence(t2);
+        }
+        else if (tagOfInterest.id == ID3)
+        {
+            buildTrajectories();
+            drive.followTrajectorySequence(t1);
+            util.shootDisk();
+            drive.followTrajectorySequence(t2);
+        }
+
 
     }
 
     public void buildTrajectories() {
-        t1 = drive.trajectorySequenceBuilder(startPose)
-                .forward(120)
-                .turn(Math.toRadians(45))
-                .forward(72)
-                .turn(Math.toRadians(-30))
+        t1 = drive.trajectorySequenceBuilder(new Pose2d(-60,12,Math.toRadians(90)))
+                .forward(90)
+                .turn(Math.toRadians(-65))
+                .forward(24)
+                .turn(Math.toRadians(200))
                 .build();
 
         t2 = drive.trajectorySequenceBuilder(t1.end())
-                .turn(Math.toRadians(-15))
+                .turn(Math.toRadians(-30))
                 .forward(48)
                 .turn(Math.toRadians(-90))
                 .forward(24)
